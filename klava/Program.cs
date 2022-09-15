@@ -9,9 +9,6 @@ namespace klava
 {
     internal static class Program
     {
-        /// <summary>
-        /// Главная точка входа для приложения.
-        /// </summary>
         [STAThread]
         static void Main()
         {
@@ -20,7 +17,6 @@ namespace klava
             {
                 if (mutex.WaitOne(0, false))
                 {
-                    // Run the application
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
                     Application.Run(new Form1());

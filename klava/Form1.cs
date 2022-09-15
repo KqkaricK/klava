@@ -119,7 +119,7 @@ namespace klava
             return ((Keys)vkCode).ToString();
         }
 
-        #region "Hooks & Native Methods"
+        #region "Магия захвата"
         private const int WM_KEYDOWN = 0x0100;
         private static LowLevelKeyboardProc _proc = HookCallback;
         private static IntPtr _hookID = IntPtr.Zero;
