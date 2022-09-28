@@ -5,21 +5,36 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace klava
 {
     internal static class Program
     {
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
-            Mutex mutex = new Mutex(false, "kqkarick-vhas-come-to42-proletariat0-hl3");
+            bool argument = false;
+            Mutex mutex = new Mutex(false, "klaVa-tHemAnwhoSold-COME-ThewOrld42");
             try
             {
                 if (mutex.WaitOne(0, false))
                 {
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(new Form1());
+                    foreach (string arg in args)
+                    {
+                        if (arg == "-admin")
+                        {
+                            argument = true;
+                            Application.Run(new Form1()); //34423
+                            break;
+                        }
+                    }
+                    if (argument == false)
+                    {
+                        Application.Run(new Form2());
+
+                    }
                 }
                 else
                 {
